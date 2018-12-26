@@ -35,10 +35,12 @@ a:hover>div.jumbotron{
 	text-decoration: none;
 }
 
+/*
 .navbar {
     margin-bottom: 0;
     border-radius: 0;
 }
+*/
 
 .row.content {height: 100%;}
 
@@ -98,6 +100,11 @@ input::-webkit-inner-spin-button {
 	form.text-center{
 		text-align: left;
 	}
+	
+	.container{
+		margin: 5px;
+	}
+	
 }
 
 @media screen and (min-width: 767px){
