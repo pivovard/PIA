@@ -1,9 +1,7 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 
-namespace Bank.Models
+namespace Test.Models
 {
-    
     public class ErrorViewModel
     {
         public string RequestId { get; set; }
