@@ -38,13 +38,13 @@
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                    <li class='active'><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li id="Home" class=''><a asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li id="About" class=''><a asp-controller="Home" asp-action="About">About</a></li>
+                    <li id="Contact" class=''><a asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href='login.html'><span class='glyphicon glyphicon-log-in'></span> Internet Banking</a></li>
-                </ul>
+
+                <partial name="_LoginPartial" />
+
             </div>
         </div>
     </nav>
@@ -59,6 +59,12 @@
     <footer class="container-fluid text-right">
         <p>Created by David Pivovar, 2018</p>
     </footer>
+
+    <script>
+        var prefix = "Bank of ???: ";
+        var title = document.title.substring(prefix.length, document.title.length);
+        document.getElementById(title).className = "active";
+    </script>
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>

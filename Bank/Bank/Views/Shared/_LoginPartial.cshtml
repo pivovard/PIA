@@ -1,0 +1,18 @@
+@if (string.IsNullOrEmpty(ViewBag.Role))
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li id="Home"><a href='login.html'><span class='glyphicon glyphicon-log-in'></span> Internet Banking</a></li>
+    </ul>
+}
+else if (ViewBag.Role.Equals("Admin"))
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li id="Logout"><a href='login.html'><span class='glyphicon glyphicon-log-out'></span> Logout</a></li>
+    </ul>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li id="Logout"><a href='login.html'><span class='glyphicon glyphicon-log-out'></span> Logout</a></li>
+    </ul>
+}
