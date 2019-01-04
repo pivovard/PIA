@@ -1,11 +1,12 @@
 ﻿@model Bank.Models.User
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Delete";
 }
 
-<h2>Details</h2>
+<h2>Delete</h2>
 
+<h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>User</h4>
     <hr />
@@ -53,16 +54,22 @@
             @Html.DisplayFor(model => model.CardNumber)
         </dd>
         <dt>
+            @Html.DisplayNameFor(model => model.Money)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Money)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Login)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Login)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Password)
+            @Html.DisplayNameFor(model => model.Pin)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Password)
+            @Html.DisplayFor(model => model.Pin)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Role)
@@ -71,8 +78,10 @@
             @Html.DisplayFor(model => model.Role)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
 </div>

@@ -9,22 +9,22 @@ using Bank.Models;
 
 namespace Bank.Controllers
 {
-    public class UsersController : Controller
+    public class Users2Controller : Controller
     {
         private readonly BankContext _context;
 
-        public UsersController(BankContext context)
+        public Users2Controller(BankContext context)
         {
             _context = context;
         }
 
-        // GET: Users
+        // GET: Users2
         public async Task<IActionResult> Index()
         {
             return View(await _context.User.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        // GET: Users2/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -42,18 +42,18 @@ namespace Bank.Controllers
             return View(user);
         }
 
-        // GET: Users/Create
+        // GET: Users2/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Users/Create
+        // POST: Users2/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,BirthNumber,Adress,Email,Phone,AccountNumber,CardNumber,Login,Password,Role")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Name,BirthNumber,Adress,Email,Phone,AccountNumber,CardNumber,Money,Login,Pin,Role")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +64,7 @@ namespace Bank.Controllers
             return View(user);
         }
 
-        // GET: Users/Edit/5
+        // GET: Users2/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,12 +80,12 @@ namespace Bank.Controllers
             return View(user);
         }
 
-        // POST: Users/Edit/5
+        // POST: Users2/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,BirthNumber,Adress,Email,Phone,AccountNumber,CardNumber,Login,Password,Role")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,BirthNumber,Adress,Email,Phone,AccountNumber,CardNumber,Money,Login,Pin,Role")] User user)
         {
             if (id != user.Id)
             {
@@ -115,7 +115,7 @@ namespace Bank.Controllers
             return View(user);
         }
 
-        // GET: Users/Delete/5
+        // GET: Users2/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,7 +133,7 @@ namespace Bank.Controllers
             return View(user);
         }
 
-        // POST: Users/Delete/5
+        // POST: Users2/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Bank.Models;
+using Bank.Filters;
 
 namespace Bank
 {
@@ -43,7 +44,10 @@ namespace Bank
             });
 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(AuthorizationFilter));
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<BankContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("BankContext")));
