@@ -16,18 +16,10 @@ namespace Bank.Filters
 
             if (string.IsNullOrEmpty(context.HttpContext.Session.GetString("Role")) || controller.ViewBag.Role == "None")
             {
-                context.Result = new ContentResult()
-                {
-                    Content = "Unauthorized access!"
-                };
                 controller.Response.Redirect("/Authorization/Login");
             }
             else if (!context.HttpContext.Session.GetString("Role").Equals("Admin") || !controller.ViewBag.Role != "Admin")
             {
-                context.Result = new ContentResult()
-                {
-                    Content = "Unauthorized access!"
-                };
                 controller.Response.Redirect("/Authorization/Unauth");
             }
         }

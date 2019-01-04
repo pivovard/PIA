@@ -18,9 +18,16 @@ namespace Bank.Controllers
             _context = context;
         }
 
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
             User user = new User();
+            try
+            {
+                _context.Add(user);
+                await _context.SaveChangesAsync();
+            }
+            catch { }
+            
             return View(user);
         }
 
@@ -42,7 +49,7 @@ namespace Bank.Controllers
             }
             catch
             {
-                return View();
+                return Redirect("/Home/Error");
             }
         }
 
