@@ -12,6 +12,6 @@ namespace Bank.Models
 
     public enum Role
     {
-        None, Admin, User
+        User, Admin
     }
 }

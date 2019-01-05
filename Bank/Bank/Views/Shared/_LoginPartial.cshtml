@@ -8,7 +8,7 @@ else if (ViewBag.Role.Equals("Admin"))
 {
 
     <ul class="nav navbar-nav navbar-right">
-        <li id="Accounts" class=''><a asp-controller="Admin" asp-action="Accounts"><span class='glyphicon glyphicon-user'></span> Manage accounts</a></li>
+        <li id="Accounts" class=''><a asp-controller="Admin" asp-action="Index"><span class='glyphicon glyphicon-user'></span> Manage accounts</a></li>
         <li id="Settings" class=''><a asp-controller="Admin" asp-action="Settings"><span class='glyphicon glyphicon-cog'></span> Account settings</a></li>
         <li id="Logout" class=''><a asp-controller="Authorization" asp-action="Logout"><span class='glyphicon glyphicon-log-out'></span> Logout</a></li>
     </ul>
