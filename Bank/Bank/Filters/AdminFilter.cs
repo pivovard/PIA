@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Bank.Data;
+using Bank.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
@@ -13,12 +15,15 @@ namespace Bank.Filters
         public void OnActionExecuted(ActionExecutedContext context)
         {
             Controller controller = context.Controller as Controller;
+            User u = null;
 
-            if (string.IsNullOrEmpty(context.HttpContext.Session.GetString("Role")) || controller.ViewBag.Role == "None")
+            string userId = context.HttpContext.Session.GetString("UserId");
+
+            if (string.IsNullOrEmpty(userId) || !SessionHandler.GetUser(userId, out u))
             {
                 controller.Response.Redirect("/Authorization/Login");
             }
-            else if (!context.HttpContext.Session.GetString("Role").Equals("Admin") || !controller.ViewBag.Role != "Admin")
+            else if (u.Role != Role.Admin)
             {
                 controller.Response.Redirect("/Authorization/Unauth");
             }

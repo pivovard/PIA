@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Bank.Data;
+using Bank.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
@@ -13,14 +15,17 @@ namespace Bank.Filters
         public void OnActionExecuted(ActionExecutedContext context)
         {
             Controller controller = context.Controller as Controller;
+            User u = null;
 
-            if (!string.IsNullOrEmpty(context.HttpContext.Session.GetString("Role")))
+            string userId = context.HttpContext.Session.GetString("UserId");
+
+            if (!string.IsNullOrEmpty(userId) && SessionHandler.GetUser(userId, out u))
             {
-                controller.ViewBag.Role = context.HttpContext.Session.GetString("Role");
+                controller.ViewBag.UserRole = u.Role;
             }
             else
             {
-                controller.ViewBag.Role = "None";
+                controller.ViewBag.UserRole = null;
             }
         }
 

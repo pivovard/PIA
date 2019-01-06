@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bank.Data;
 using Bank.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,21 +26,28 @@ namespace Bank.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([Bind("Login")] int login, [Bind("Pin")] int Pin)
+        public async Task<IActionResult> Login([Bind("Login")] string login, [Bind("Pin")] int pin)
         {
             try
             {
-                User usr = await _context.User.FirstOrDefaultAsync(u => u.Login == login);
+                User user = await _context.User.FirstOrDefaultAsync(u => u.Login == login);
 
-                if (usr == null || usr.Pin != Pin)
+                if (user == null || !user.HashPin(pin).Equals(user.Pin))
                 {
                     ViewBag.Login = login;
                     ViewBag.ErrMsg = "Wrong login or pin!";
                     return View();
                 }
-
-                HttpContext.Session.SetString("Role", usr.Role.ToString());
-                return Redirect("/Home/Index");
+                
+                HttpContext.Session.SetString("UserId", SessionHandler.NewSession(user));
+                if(user.Role == Role.User)
+                {
+                    return Redirect("/User");
+                }
+                else
+                {
+                    return Redirect("/Admin");
+                }
             }
             catch
             {
@@ -49,9 +57,9 @@ namespace Bank.Controllers
 
         public IActionResult Logout()
         {
+            SessionHandler.DestroySession(HttpContext.Session.GetString("UserId"));
             HttpContext.Session.Clear();
-            //HttpContext.Session.SetString("Role", null);
-            ViewBag.Role = null;
+            ViewBag.Role = "None";
 
             return Redirect("/Home/Index");
         }
