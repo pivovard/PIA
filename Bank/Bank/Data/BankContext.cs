@@ -9,12 +9,6 @@ namespace Bank.Models
 {
     public class BankContext : DbContext
     {
-        public BankContext (DbContextOptions<BankContext> options)
-            : base(options)
-        {
-        }
-
-
         public DbSet<Bank.Models.Payment> Payment { get; set; }
 
         public DbSet<Bank.Models.Template> Template { get; set; }
@@ -22,5 +16,17 @@ namespace Bank.Models
         public DbSet<Bank.Models.Standing> Standing { get; set; }
 
         public DbSet<Bank.Models.User> User { get; set; }
+
+
+        public BankContext(DbContextOptions<BankContext> options) : base(options) { }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<User>(entity => {
+                entity.HasIndex(e => e.Login).IsUnique();
+                //entity.HasIndex(e => e.AccountNumber).IsUnique();
+                //entity.HasIndex(e => e.CardNumber).IsUnique();
+            });
+        }
     }
 }

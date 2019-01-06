@@ -96,6 +96,23 @@ input::-webkit-inner-spin-button {
     margin-bottom: 10px;
 }
 
+/*big screen*/
+@media screen and (min-width: 767px) {
+    .header-odsazeni {
+        margin-left: 250px;
+    }
+
+    .content-odsazeni {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    .btn-user-index{
+        margin-left: 180px;
+    }
+}
+
+/*small screen*/
 @media screen and (max-width: 767px) {
     .sidenav {
         height: auto;
@@ -115,13 +132,4 @@ input::-webkit-inner-spin-button {
     }
 }
 
-@media screen and (min-width: 767px) {
-    .header-odsazeni {
-        margin-left: 250px;
-    }
 
-    .content-odsazeni {
-        margin-top: 30px;
-        margin-bottom: 30px;
-    }
-}

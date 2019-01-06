@@ -7,21 +7,24 @@
 <div class="container">
     <h2>Add user</h2>
     <hr />
-    <form asp-action="AddUser" method="post">
+    <form class="form-horizontal" asp-action="AddUser" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Login" value="-1" />
+        <input type="hidden" asp-for="Pin" value="-1 "/>
+
         <div class="form-group">
             <label asp-for="Role" class="control-label"></label>
-            <select asp-for="Role" asp-items="Html.GetEnumSelectList<Role>()" class="form-control"></select>
+            <select asp-for="Role" asp-items="Html.GetEnumSelectList<Role>()" class="form-control" onchange="selectRoleChanged()" style="width: 100px"></select>
             <span asp-validation-for="Role" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name" class="form-control" />
+            <input asp-for="Name" class="form-control" style="width: 300px" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="BirthNumber" class="control-label"></label>
-            <input asp-for="BirthNumber" class="form-control" />
+            <input asp-for="BirthNumber" class="form-control" style="width: 300px" />
             <span asp-validation-for="BirthNumber" class="text-danger"></span>
         </div>
         <div class="form-group">
@@ -31,31 +34,38 @@
         </div>
         <div class="form-group">
             <label asp-for="Email" class="control-label"></label>
-            <input asp-for="Email" class="form-control" />
+            <input asp-for="Email" class="form-control" style="width: 300px" />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="Phone" class="control-label"></label>
-            <input asp-for="Phone" class="form-control" />
+            <input asp-for="Phone" class="form-control" style="width: 300px" />
             <span asp-validation-for="Phone" class="text-danger"></span>
         </div>
         <div id="acc">
             <div class="form-group">
                 <label asp-for="AccountNumber" class="control-label"></label>
-                <input asp-for="AccountNumber" class="form-control" />
+                <input asp-for="AccountNumber" class="form-control" style="width: 300px" />
+                <label for="AccGen">Generate </label>
+                @Html.CheckBox("AccGen")
                 <span asp-validation-for="AccountNumber" class="text-danger"></span>
+                <p class="text-danger">@ViewBag.ErrAcc</p>
             </div>
             <div class="form-group">
                 <label asp-for="CardNumber" class="control-label"></label>
-                <input asp-for="CardNumber" class="form-control" />
+                <input asp-for="CardNumber" class="form-control" style="width: 300px" />
+                <label for="CardGen">Generate </label>
+                @Html.CheckBox("CardGen")
                 <span asp-validation-for="CardNumber" class="text-danger"></span>
+                <p class="text-danger">@ViewBag.ErrCard</p>
             </div>
             <div class="form-group">
                 <label asp-for="Money" class="control-label"></label>
-                <input asp-for="Money" class="form-control" />
+                <input asp-for="Money" class="form-control" style="width: 300px" />
                 <span asp-validation-for="Money" class="text-danger"></span>
             </div>
         </div>
+        <p class="text-danger">@ViewBag.ErrMsg</p>
         <div class="form-group">
             <input type="submit" value="Add user" class="btn btn-primary" />
             <a asp-action="Index" class="btn btn-default">Back</a>
@@ -65,9 +75,14 @@
 
 
 <script>
-    var e = document.getElementById("Role");
-    var role = e.options[e.selectedIndex].text;
-    if (role === "Admin") {
-        document.getElementById("acc").style.visibility = 'hidden';
+    function selectRoleChanged() {
+        var e = document.getElementById("Role");
+        var role = e.options[e.selectedIndex].text;
+        if (role === "Admin") {
+            document.getElementById("acc").style.visibility = 'hidden';
+        }
+        else {
+            document.getElementById("acc").style.visibility = 'visible';
+        }
     }
 </script>

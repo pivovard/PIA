@@ -20,16 +20,14 @@ namespace Bank.Models
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         public int? Phone { get; set; }
+        
+        public long? AccountNumber { get; set; }
+        public long? CardNumber { get; set; }
+        public long? Money { get; set; }
 
         [Required]
-        public long AccountNumber { get; set; }
-        [Required]
-        [DataType(DataType.CreditCard)]
-        public long CardNumber { get; set; }
-        [Required]
-        public long Money { get; set; }
-        
         public string Login { get; set; }
+        [Required]
         [DataType(DataType.Password)]
         public string Pin { get; set; }
         [Required]
@@ -50,6 +48,41 @@ namespace Bank.Models
 
             //docasny vypis
             Console.WriteLine($"{Login} - {Pin}");
+        }
+
+        public void GenerateAccountNumber(BankContext context)
+        {
+            Random r = new Random();
+            long n;
+            
+            do
+            {
+                n = r.Next(10000000, 100000000) * 100000000L + r.Next(10000000, 100000000);
+            } while (context.User.Any(a => a.AccountNumber == n));
+
+            this.AccountNumber = n;
+        }
+        public void GenerateCardNumber(BankContext context)
+        {
+            Random r = new Random();
+            long n;
+
+            do
+            {
+                n = r.Next(10000000, 100000000) * 100000000L + r.Next(10000000, 100000000);
+            } while (context.User.Any(a => a.CardNumber == n));
+
+            this.CardNumber = n;
+        }
+
+        public bool IsAccountUnique(BankContext context)
+        {
+            return !context.User.Any(a => a.AccountNumber == this.AccountNumber);
+        }
+
+        public bool IsCardUnique(BankContext context)
+        {
+            return !context.User.Any(a => a.CardNumber == this.CardNumber);
         }
 
         public string HashPin(int pin)

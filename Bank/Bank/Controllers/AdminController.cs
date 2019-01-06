@@ -32,8 +32,41 @@ namespace Bank.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddUser([Bind("Id,Name,BirthNumber,Adress,Email,Phone,AccountNumber,CardNumber,Money,Login,Pin,Role")] User user)
+        public async Task<IActionResult> AddUser([Bind("Id,Name,BirthNumber,Adress,Email,Phone,AccountNumber,CardNumber,Money,Login,Pin,Role")] User user, [Bind("AccGen")] bool AccGen = false, [Bind("CardGen")] bool CardGen = false)
         {
+            if (user.Role == Role.User)
+            {
+                if (AccGen) user.GenerateAccountNumber(_context);
+                if (CardGen) user.GenerateCardNumber(_context);
+
+                if (user.AccountNumber == null)
+                {
+                    ViewBag.ErrAcc = "Account number is required";
+                    return View(user);
+                }
+
+                if (!user.IsAccountUnique(_context))
+                {
+                    ViewBag.ErrAcc = "Account number is not unique.";
+                    return View(user);
+                }
+
+                if (user.CardNumber == null)
+                {
+                    ViewBag.ErrAcc = "Card number is required";
+                    return View(user);
+                }
+
+                if (!user.IsCardUnique(_context))
+                {
+                    ViewBag.ErrCard = "Card number is not unique.";
+                    return View(user);
+                }
+
+                if (user.Money == null) user.Money = 0;
+            }
+            
+            
             if (ModelState.IsValid)
             {
                 user.GenerateLogin(_context);
@@ -42,7 +75,11 @@ namespace Bank.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            else
+            {
+                ViewBag.ErrMsg = "Values are not valid.";
+                return View(user);
+            }
         }
         
         public async Task<IActionResult> EditUser(int? id)
@@ -57,9 +94,30 @@ namespace Bank.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUser(int id, [Bind("Id,Name,BirthNumber,Adress,Email,Phone,AccountNumber,CardNumber,Money,Login,Pin,Role")] User user)
+        public async Task<IActionResult> EditUser(int id, [Bind("Id,Name,BirthNumber,Adress,Email,Phone,AccountNumber,CardNumber,Money,Login,Pin,Role")] User user, [Bind("CardGen")] bool CardGen)
         {
             if (id != user.Id) return RedirectToAction(nameof(Index));
+
+            User u = await _context.User.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
+
+            if (user.Role == Role.User)
+            {
+                if (CardGen) user.GenerateCardNumber(_context);
+
+                if (user.CardNumber == null)
+                {
+                    ViewBag.ErrAcc = "Card number is required";
+                    return View(user);
+                }
+
+                if (!user.IsCardUnique(_context) && user.CardNumber != u.CardNumber)
+                {
+                    ViewBag.ErrCard = "Card number is not unique.";
+                    return View(user);
+                }
+
+                if (user.Money == null) user.Money = 0;
+            }
 
             if (ModelState.IsValid)
             {
@@ -72,7 +130,7 @@ namespace Bank.Controllers
                 {
                     if (!UserExists(user.Id))
                     {
-                        return NotFound();
+                        return Redirect("/User/UNotFound");
                     }
                     else
                     {
@@ -81,7 +139,11 @@ namespace Bank.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            else
+            {
+                ViewBag.ErrMsg = "Values are not valid.";
+                return View(user);
+            }
         }
         
         public async Task<IActionResult> DeleteUser(int? id)

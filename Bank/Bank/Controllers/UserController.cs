@@ -40,7 +40,7 @@ namespace Bank.Controllers
         {
             User user = null;
             string userId = HttpContext.Session.GetString("UserId");
-
+            
             if (!string.IsNullOrEmpty(userId) && SessionHandler.GetUser(userId, out user))
             {
                 return View(user);
@@ -68,16 +68,23 @@ namespace Bank.Controllers
                 {
                     if (!UserExists(user.Id))
                     {
-                        return NotFound();
+                        return Redirect("/User/UNotFound");
                     }
                     else
                     {
                         return Redirect("/Home/Error");
                     }
                 }
+                string userId = HttpContext.Session.GetString("UserId");
+                SessionHandler.SetUser(userId, user);
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            else
+            {
+                ViewBag.ErrMsg = "Values are not valid.";
+                return View(user);
+            }
         }
 
         public IActionResult ChangePin()
@@ -87,7 +94,7 @@ namespace Bank.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangePin([Bind("OldPin")] int oldPin, [Bind("NewPin")] int newPin, [Bind("confirmPin")] int confirmPin)
+        public async Task<IActionResult> ChangePin([Bind("OldPin")] int oldPin, [Bind("NewPin")] int newPin, [Bind("ConfirmPin")] int confirmPin)
         {
             User user = null;
             string userId = HttpContext.Session.GetString("UserId");
@@ -123,7 +130,7 @@ namespace Bank.Controllers
                 {
                     if (!UserExists(user.Id))
                     {
-                        return NotFound();
+                        return Redirect("/User/UNotFound");
                     }
                     else
                     {
@@ -137,6 +144,11 @@ namespace Bank.Controllers
             {
                 return Redirect("/Authorization/Login");
             }
+        }
+
+        public IActionResult UNotFound()
+        {
+            return View();
         }
 
         private bool UserExists(int id)

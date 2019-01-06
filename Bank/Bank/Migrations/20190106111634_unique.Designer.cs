@@ -4,14 +4,16 @@ using Bank.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bank.Migrations
 {
     [DbContext(typeof(BankContext))]
-    partial class BankContextModelSnapshot : ModelSnapshot
+    [Migration("20190106111634_unique")]
+    partial class unique
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,33 +108,37 @@ namespace Bank.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("AccountNumber");
+                    b.Property<long>("AccountNumber");
 
                     b.Property<string>("Adress");
 
                     b.Property<int>("BirthNumber");
 
-                    b.Property<long?>("CardNumber");
+                    b.Property<long>("CardNumber");
 
                     b.Property<string>("Email")
                         .IsRequired();
 
-                    b.Property<string>("Login")
-                        .IsRequired();
+                    b.Property<string>("Login");
 
-                    b.Property<long?>("Money");
+                    b.Property<long>("Money");
 
                     b.Property<string>("Name")
                         .IsRequired();
 
                     b.Property<int?>("Phone");
 
-                    b.Property<string>("Pin")
-                        .IsRequired();
+                    b.Property<string>("Pin");
 
                     b.Property<int>("Role");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AccountNumber")
+                        .IsUnique();
+
+                    b.HasIndex("CardNumber")
+                        .IsUnique();
 
                     b.ToTable("User");
                 });

@@ -16,12 +16,12 @@
 
         <div class="form-group">
             <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name" class="form-control" />
+            <input asp-for="Name" class="form-control" style="width: 300px" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="BirthNumber" class="control-label"></label>
-            <input asp-for="BirthNumber" class="form-control" />
+            <input asp-for="BirthNumber" class="form-control" style="width: 300px" />
             <span asp-validation-for="BirthNumber" class="text-danger"></span>
         </div>
         <div class="form-group">
@@ -31,32 +31,36 @@
         </div>
         <div class="form-group">
             <label asp-for="Email" class="control-label"></label>
-            <input asp-for="Email" class="form-control" />
+            <input asp-for="Email" class="form-control" style="width: 300px" />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="Phone" class="control-label"></label>
-            <input asp-for="Phone" class="form-control" />
+            <input asp-for="Phone" class="form-control" style="width: 300px" />
             <span asp-validation-for="Phone" class="text-danger"></span>
         </div>
         @if (Model.Role == Role.User)
         {
             <div class="form-group">
                 <label asp-for="AccountNumber" class="control-label"></label>
-                <input asp-for="AccountNumber" class="form-control" readonly />
+                <input asp-for="AccountNumber" class="form-control" style="width: 300px" readonly />
                 <span asp-validation-for="AccountNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CardNumber" class="control-label"></label>
-                <input asp-for="CardNumber" class="form-control" />
+                <input asp-for="CardNumber" class="form-control" style="width: 300px" />
+                <label for="CardGen">Generate </label>
+                @Html.CheckBox("CardGen")
                 <span asp-validation-for="CardNumber" class="text-danger"></span>
+                <p class="text-danger">@ViewBag.ErrCard</p>
             </div>
             <div class="form-group">
                 <label asp-for="Money" class="control-label"></label>
-                <input asp-for="Money" class="form-control" readonly />
+                <input asp-for="Money" class="form-control" style="width: 300px" />
                 <span asp-validation-for="Money" class="text-danger"></span>
             </div>
         }
+        <p class="text-danger">@ViewBag.ErrMsg</p>
         <div class="form-group">
             <input type="submit" value="Save" class="btn btn-primary" />
             <a asp-action="Index" class="btn btn-default">Back</a>

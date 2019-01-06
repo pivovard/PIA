@@ -23,6 +23,11 @@ namespace Bank.Data
             return sessions.TryGetValue(g, out u);
         }
 
+        public static void SetUser(string g, User u)
+        {
+            sessions[g] = u;
+        }
+
         public static void DestroySession(string g)
         {
             sessions.Remove(g);
