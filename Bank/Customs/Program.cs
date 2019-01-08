@@ -11,12 +11,7 @@ namespace Customs
     {
         static void Main(string[] args)
         {
-            byte[] s;
-            using (var sha = new SHA256Managed())
-            {
-                s = sha.ComputeHash(BitConverter.GetBytes(123));
-            }
-            Console.WriteLine(s.ToArray());
+            Console.WriteLine(DateTime.Today.ToString("yyyy-MM-dd"));
             Console.ReadKey();
         }
     }

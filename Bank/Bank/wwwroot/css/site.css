@@ -92,6 +92,11 @@ input::-webkit-inner-spin-button {
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
+.table > tbody > tr > td.message {
+    column-span: all;
+    border-top: none;
+}
+
 #map {
     margin-bottom: 10px;
 }
@@ -109,6 +114,10 @@ input::-webkit-inner-spin-button {
 
     .btn-user-index{
         margin-left: 180px;
+    }
+
+    div.zero-padding{
+        padding: 0px;
     }
 }
 

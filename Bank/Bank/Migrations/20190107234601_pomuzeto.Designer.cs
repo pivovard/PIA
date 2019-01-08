@@ -4,14 +4,16 @@ using Bank.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bank.Migrations
 {
     [DbContext(typeof(BankContext))]
-    partial class BankContextModelSnapshot : ModelSnapshot
+    [Migration("20190107234601_pomuzeto")]
+    partial class pomuzeto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,7 +37,8 @@ namespace Bank.Migrations
 
                     b.Property<long?>("DestAccountPrefix");
 
-                    b.Property<int>("DestBank");
+                    b.Property<string>("DestBank")
+                        .IsRequired();
 
                     b.Property<long>("FromAccount");
 
@@ -98,6 +101,8 @@ namespace Bank.Migrations
                     b.Property<long?>("DestAccountPrefix");
 
                     b.Property<int>("DestBank");
+
+                    b.Property<string>("Message");
 
                     b.Property<string>("Name");
 

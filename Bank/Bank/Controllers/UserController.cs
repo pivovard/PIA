@@ -55,7 +55,7 @@ namespace Bank.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,BirthNumber,Adress,Email,Phone,AccountNumber,CardNumber,Money,Login,Pin,Role")] User user)
         {
-            if (id != user.Id) return RedirectToAction(nameof(Index));
+            if (id != user.Id) return Redirect("/Authorization/Unauth");
 
             if (ModelState.IsValid)
             {

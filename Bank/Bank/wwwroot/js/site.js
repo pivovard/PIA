@@ -1,4 +1,28 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿
+var prefix = "Bank of ???: ";
+var title = document.title.substring(prefix.length, document.title.length);
+document.getElementById(title).className = "active";
 
-// Write your JavaScript code.
+
+function selectRoleChanged() {
+    var e = document.getElementById("Role");
+    var role = e.options[e.selectedIndex].text;
+    if (role === "Admin") {
+        document.getElementById("acc").style.visibility = 'hidden';
+    }
+    else {
+        document.getElementById("acc").style.visibility = 'visible';
+    }
+}
+
+function selectBankCode() {
+    var e = document.getElementById("BankCode");
+    var code = e.options[e.selectedIndex].value;
+    document.getElementById("DestBank").value = code;
+}
+
+function selectTemplate() {
+    var e = document.getElementById("TemplateSelect");
+    var temp = e.options[e.selectedIndex].value;
+    document.getElementById("TemplateBtn").href = "/Payment/PaymentTemplate/" + temp;
+}

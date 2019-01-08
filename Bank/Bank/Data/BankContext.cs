@@ -7,7 +7,7 @@ using Bank.Models;
 
 namespace Bank.Models
 {
-    public class BankContext : DbContext
+    public partial class BankContext : DbContext
     {
         public DbSet<Bank.Models.Payment> Payment { get; set; }
 

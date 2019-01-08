@@ -23,7 +23,7 @@ namespace Bank.Models
         
         public long? AccountNumber { get; set; }
         public long? CardNumber { get; set; }
-        public long? Money { get; set; }
+        public double? Money { get; set; }
 
         [Required]
         public string Login { get; set; }
@@ -32,6 +32,10 @@ namespace Bank.Models
         public string Pin { get; set; }
         [Required]
         public Role Role { get; set; }
+
+        public ICollection<Payment> Payments { get; set; }
+        public ICollection<Template> Templates { get; set; }
+
 
         public void GenerateLogin(BankContext context)
         {
@@ -45,9 +49,6 @@ namespace Bank.Models
 
             this.Login = login;
             this.Pin = HashPin(r.Next(1000, 10000));
-
-            //docasny vypis
-            Console.WriteLine($"{Login} - {Pin}");
         }
 
         public void GenerateAccountNumber(BankContext context)

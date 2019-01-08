@@ -4,14 +4,16 @@ using Bank.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bank.Migrations
 {
     [DbContext(typeof(BankContext))]
-    partial class BankContextModelSnapshot : ModelSnapshot
+    [Migration("20190107215700_template")]
+    partial class template
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,25 +91,15 @@ namespace Bank.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double>("Amount");
-
-                    b.Property<int?>("Constant");
-
-                    b.Property<long>("DestAccount");
-
-                    b.Property<long?>("DestAccountPrefix");
-
-                    b.Property<int>("DestBank");
-
                     b.Property<string>("Name");
 
-                    b.Property<int?>("Specific");
+                    b.Property<int?>("PaymentId");
 
                     b.Property<int>("UserId");
 
-                    b.Property<int?>("Variable");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("PaymentId");
 
                     b.HasIndex("UserId");
 
@@ -157,15 +149,19 @@ namespace Bank.Migrations
             modelBuilder.Entity("Bank.Models.Payment", b =>
                 {
                     b.HasOne("Bank.Models.User")
-                        .WithMany("Payments")
+                        .WithMany("payments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Bank.Models.Template", b =>
                 {
+                    b.HasOne("Bank.Models.Payment", "Payment")
+                        .WithMany()
+                        .HasForeignKey("PaymentId");
+
                     b.HasOne("Bank.Models.User")
-                        .WithMany("Templates")
+                        .WithMany("templates")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

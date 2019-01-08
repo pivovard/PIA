@@ -4,14 +4,16 @@ using Bank.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bank.Migrations
 {
     [DbContext(typeof(BankContext))]
-    partial class BankContextModelSnapshot : ModelSnapshot
+    [Migration("20190107222704_template2")]
+    partial class template2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,6 +101,8 @@ namespace Bank.Migrations
 
                     b.Property<int>("DestBank");
 
+                    b.Property<string>("Message");
+
                     b.Property<string>("Name");
 
                     b.Property<int?>("Specific");
@@ -157,7 +161,7 @@ namespace Bank.Migrations
             modelBuilder.Entity("Bank.Models.Payment", b =>
                 {
                     b.HasOne("Bank.Models.User")
-                        .WithMany("Payments")
+                        .WithMany("payments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -165,7 +169,7 @@ namespace Bank.Migrations
             modelBuilder.Entity("Bank.Models.Template", b =>
                 {
                     b.HasOne("Bank.Models.User")
-                        .WithMany("Templates")
+                        .WithMany("templates")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

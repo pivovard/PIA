@@ -3,7 +3,7 @@
 
     <ul class="nav navbar-nav navbar-right">
         <li id="Accounts" class=''><a asp-controller="Admin" asp-action="Index"><span class='glyphicon glyphicon-user'></span> Manage accounts</a></li>
-        <li id="Settings" class=''><a asp-controller="User" asp-action="Index"><span class='glyphicon glyphicon-cog'></span> Account settings</a></li>
+        <li id="Settings" class=''><a asp-controller="User" asp-action="Index"><span class='glyphicon glyphicon-cog'></span> Account</a></li>
         <li id="Logout" class=''><a asp-controller="Authorization" asp-action="Logout"><span class='glyphicon glyphicon-log-out'></span> Logout</a></li>
     </ul>
 }
@@ -16,13 +16,13 @@ else if (ViewBag.UserRole == Role.User)
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-                <li><a asp-controller="Payment" asp-action="Index">Payment</a></li>
-                <li><a asp-controller="Payment" asp-action="Templates">Templates</a></li>
-                <li><a asp-controller="Payment" asp-action="Standings">Standings</a></li>
-                <li><a asp-controller="Payment" asp-action="History">History</a></li>
+                <li><a asp-controller="Payment" asp-action="Payment">Payment</a></li>
+                <li><a asp-controller="Template" asp-action="TemplateList">Templates</a></li>
+                @*<li><a asp-controller="Standings" asp-action="Standings">Standings</a></li>*@
+                <li><a asp-controller="Payment" asp-action="PaymentList">History</a></li>
             </ul>
         </li>
-        <li id="Settings" class=''><a asp-controller="User" asp-action="Index"><span class='glyphicon glyphicon-cog'></span> Account settings</a></li>
+        <li id="Settings" class=''><a asp-controller="User" asp-action="Index"><span class='glyphicon glyphicon-cog'></span> Account</a></li>
         <li id="Logout" class=''><a asp-controller="Authorization" asp-action="Logout"><span class='glyphicon glyphicon-log-out'></span> Logout</a></li>
     </ul>
 }

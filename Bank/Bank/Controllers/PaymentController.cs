@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Bank.Models;
 using Microsoft.AspNetCore.Http;
 using Bank.Data;
+using Bank.Filters;
 
 namespace Bank.Controllers
 {
+    [UserFilter]
     public class PaymentController : Controller
     {
         private readonly BankContext _context;
@@ -22,12 +24,19 @@ namespace Bank.Controllers
 
         public IActionResult Index()
         {
+            return RedirectToAction(nameof(Payment));
+        }
+
+        public async Task<IActionResult> Payment()
+        {
+            ViewBag.Templates = await GetTemplates();
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(Payment payment)
+        public async Task<IActionResult> Payment(Payment payment)
         {
             if (ModelState.IsValid)
             {
@@ -70,93 +79,33 @@ namespace Bank.Controllers
             string userId = HttpContext.Session.GetString("UserId");
             SessionHandler.GetUser(userId, out user);
 
-            return View(await _context.Payment.Where(p => p.UserId == user.Id).ToListAsync());
+            return View(await _context.Payment.Where(e => e.UserId == user.Id).ToListAsync());
         }
 
-        public async Task<IActionResult> TemplateList()
+        public async Task<IActionResult> PaymentTemplate(int? id)
         {
-            User user = null;
-            string userId = HttpContext.Session.GetString("UserId");
-            SessionHandler.GetUser(userId, out user);
+            if (id == null) return RedirectToAction(nameof(Payment));
 
-            return View(await _context.Template.Where(t => t.UserId == user.Id).ToListAsync());
-        }
-
-        public IActionResult AddTemplate()
-        {
-            return View();
-        }
-
-        public async Task<IActionResult> EditTemplate(int? id)
-        {
-            if (id == null) return View();
-
-            var temp = await _context.Template.FindAsync(id);
-            if (temp == null) return View();
+            var template = await _context.Template.FindAsync(id);
+            if(template == null) return RedirectToAction(nameof(Payment));
             
-            return View("AddTemplate", temp);
-        }
+            ViewBag.Templates = await GetTemplates();
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddTemplate(int id,  Template template)
-        {
-            if (ModelState.IsValid)
-            {
-                var temp = await _context.Template.FindAsync(id);
-
-                if (temp == null)
-                {
-                    if (!_context.IsTemplateNameUnique(template.Name))
-                    {
-                        
-                        ViewBag.ErrName = "Template name must be unique.";
-                        return View(template);
-                    }
-
-                    User user = null;
-                    string userId = HttpContext.Session.GetString("UserId");
-                    SessionHandler.GetUser(userId, out user);
-
-                    template.UserId = user.Id;
-
-                    try
-                    {
-                        _context.Add(template);
-                        await _context.SaveChangesAsync();
-                    }
-                    catch
-                    {
-                        return Redirect("/Home/Error");
-                    }
-                }
-                else
-                {
-                    if (!_context.IsTemplateNameUnique(template.Name) && temp.Name != template.Name)
-                    {
-
-                        ViewBag.ErrName = "Template name must be unique.";
-                        return View(template);
-                    }
-
-                    try
-                    {
-                        _context.Update(template);
-                        await _context.SaveChangesAsync();
-                    }
-                    catch
-                    {
-                        return Redirect("/Home/Error");
-                    }
-                }
-            }
-
-            return View(template);
+            return View("Payment", new Payment(template));
         }
 
         private bool UserExists(int id)
         {
             return _context.User.Any(e => e.Id == id);
+        }
+
+        private async Task<List<Template>> GetTemplates()
+        {
+            User user = null;
+            string userId = HttpContext.Session.GetString("UserId");
+            SessionHandler.GetUser(userId, out user);
+
+            return await _context.Template.Where(e => e.UserId == user.Id).ToListAsync();
         }
     }
 }

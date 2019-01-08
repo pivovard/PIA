@@ -25,7 +25,5 @@ namespace Bank.Models
         public int? Constant { get; set; }
         public int? Variable { get; set; }
         public int? Specific { get; set; }
-
-        public string Message { get; set; }
     }
 }

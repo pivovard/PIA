@@ -72,17 +72,3 @@
         </div>
     </form>
 </div>
-
-
-<script>
-    function selectRoleChanged() {
-        var e = document.getElementById("Role");
-        var role = e.options[e.selectedIndex].text;
-        if (role === "Admin") {
-            document.getElementById("acc").style.visibility = 'hidden';
-        }
-        else {
-            document.getElementById("acc").style.visibility = 'visible';
-        }
-    }
-</script>

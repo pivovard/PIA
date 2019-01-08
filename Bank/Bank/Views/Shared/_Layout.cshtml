@@ -43,7 +43,7 @@
                     <li id="Contact" class=''><a asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
 
-                <partial name="_LoginPartial" />
+                <partial name="_NavPartial" />
 
             </div>
         </div>
@@ -59,12 +59,6 @@
     <footer class="container-fluid text-right">
         <p>Created by David Pivovar, 2018</p>
     </footer>
-
-    <script>
-        var prefix = "Bank of ???: ";
-        var title = document.title.substring(prefix.length, document.title.length);
-        document.getElementById(title).className = "active";
-    </script>
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>

@@ -12,7 +12,14 @@ namespace Bank.Filters
 {
     public class UserFilter : IActionFilter
     {
+        public int Order => int.MinValue;
+
         public void OnActionExecuted(ActionExecutedContext context)
+        {
+            
+        }
+
+        public void OnActionExecuting(ActionExecutingContext context)
         {
             Controller controller = context.Controller as Controller;
             User u = null;
@@ -21,16 +28,14 @@ namespace Bank.Filters
 
             if (string.IsNullOrEmpty(userId) || !SessionHandler.GetUser(userId, out u))
             {
+                context.Result = new ContentResult();
                 controller.Response.Redirect("/Authorization/Login");
             }
             else if (u.Role != Role.User)
             {
+                context.Result = new ContentResult();
                 controller.Response.Redirect("/Authorization/Unauth");
             }
-        }
-
-        public void OnActionExecuting(ActionExecutingContext context)
-        {
         }
     }
 }

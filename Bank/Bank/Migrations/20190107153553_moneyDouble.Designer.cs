@@ -4,14 +4,16 @@ using Bank.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bank.Migrations
 {
     [DbContext(typeof(BankContext))]
-    partial class BankContextModelSnapshot : ModelSnapshot
+    [Migration("20190107153553_moneyDouble")]
+    partial class moneyDouble
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,19 +39,15 @@ namespace Bank.Migrations
 
                     b.Property<int>("DestBank");
 
-                    b.Property<long>("FromAccount");
+                    b.Property<int>("FromAccount");
 
                     b.Property<string>("Message");
 
                     b.Property<int?>("Specific");
 
-                    b.Property<int>("UserId");
-
                     b.Property<int?>("Variable");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Payment");
                 });
@@ -89,27 +87,19 @@ namespace Bank.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double>("Amount");
+                    b.Property<int>("Account");
 
-                    b.Property<int?>("Constant");
+                    b.Property<int>("Bank");
 
-                    b.Property<long>("DestAccount");
+                    b.Property<int>("Constant");
 
-                    b.Property<long?>("DestAccountPrefix");
+                    b.Property<string>("Message");
 
-                    b.Property<int>("DestBank");
+                    b.Property<int>("Specific");
 
-                    b.Property<string>("Name");
-
-                    b.Property<int?>("Specific");
-
-                    b.Property<int>("UserId");
-
-                    b.Property<int?>("Variable");
+                    b.Property<int>("Variable");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Template");
                 });
@@ -152,22 +142,6 @@ namespace Bank.Migrations
                         .IsUnique();
 
                     b.ToTable("User");
-                });
-
-            modelBuilder.Entity("Bank.Models.Payment", b =>
-                {
-                    b.HasOne("Bank.Models.User")
-                        .WithMany("Payments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Bank.Models.Template", b =>
-                {
-                    b.HasOne("Bank.Models.User")
-                        .WithMany("Templates")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

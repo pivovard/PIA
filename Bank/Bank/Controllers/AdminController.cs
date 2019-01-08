@@ -36,8 +36,8 @@ namespace Bank.Controllers
         {
             if (user.Role == Role.User)
             {
-                if (AccGen) user.GenerateAccountNumber(_context);
-                if (CardGen) user.GenerateCardNumber(_context);
+                if (AccGen) user.AccountNumber = _context.GenerateAccountNumber();
+                if (CardGen) user.CardNumber = _context.GenerateCardNumber();
 
                 if (user.AccountNumber == null)
                 {
@@ -45,7 +45,7 @@ namespace Bank.Controllers
                     return View(user);
                 }
 
-                if (!user.IsAccountUnique(_context))
+                if (!_context.IsAccountUnique((long)user.AccountNumber))
                 {
                     ViewBag.ErrAcc = "Account number is not unique.";
                     return View(user);
@@ -57,7 +57,7 @@ namespace Bank.Controllers
                     return View(user);
                 }
 
-                if (!user.IsCardUnique(_context))
+                if (!_context.IsCardUnique((long)user.CardNumber))
                 {
                     ViewBag.ErrCard = "Card number is not unique.";
                     return View(user);
@@ -69,7 +69,7 @@ namespace Bank.Controllers
             
             if (ModelState.IsValid)
             {
-                user.GenerateLogin(_context);
+                _context.GenerateLogin(user);
 
                 _context.Add(user);
                 await _context.SaveChangesAsync();
@@ -102,7 +102,7 @@ namespace Bank.Controllers
 
             if (user.Role == Role.User)
             {
-                if (CardGen) user.GenerateCardNumber(_context);
+                if (CardGen) user.CardNumber = _context.GenerateCardNumber();
 
                 if (user.CardNumber == null)
                 {
@@ -110,7 +110,7 @@ namespace Bank.Controllers
                     return View(user);
                 }
 
-                if (!user.IsCardUnique(_context) && user.CardNumber != u.CardNumber)
+                if (!_context.IsCardUnique((long)user.CardNumber) && user.CardNumber != u.CardNumber)
                 {
                     ViewBag.ErrCard = "Card number is not unique.";
                     return View(user);

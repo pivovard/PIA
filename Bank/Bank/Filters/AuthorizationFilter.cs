@@ -12,7 +12,14 @@ namespace Bank.Filters
 {
     public class AuthorizationFilter : IActionFilter
     {
+        public int Order => int.MinValue;
+
         public void OnActionExecuted(ActionExecutedContext context)
+        {
+            
+        }
+
+        public void OnActionExecuting(ActionExecutingContext context)
         {
             Controller controller = context.Controller as Controller;
             User u = null;
@@ -27,11 +34,6 @@ namespace Bank.Filters
             {
                 controller.ViewBag.UserRole = null;
             }
-        }
-
-        public void OnActionExecuting(ActionExecutingContext context)
-        {
-            //after
         }
     }
 }
