@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bank.Filters;
+using Bank.Handlers;
 using Bank.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,8 +33,14 @@ namespace Bank.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddUser([Bind("Id,Name,BirthNumber,Adress,Email,Phone,AccountNumber,CardNumber,Money,Login,Pin,Role")] User user, [Bind("AccGen")] bool AccGen = false, [Bind("CardGen")] bool CardGen = false)
+        public async Task<IActionResult> AddUser([Bind("Id,Name,BirthNumber,Adress,Email,Phone,AccountNumber,CardNumber,Money,Login,Pin,Role")] User user, string Turing, [Bind("AccGen")] bool AccGen = false, [Bind("CardGen")] bool CardGen = false)
         {
+            if (!Turing.ToLower().Equals("human"))
+            {
+                ViewBag.ErrTuring = "We don't talk to machines, call a human being.";
+                return View(user);
+            }
+
             if (user.Role == Role.User)
             {
                 if (AccGen) user.AccountNumber = _context.GenerateAccountNumber();
@@ -69,10 +76,13 @@ namespace Bank.Controllers
             
             if (ModelState.IsValid)
             {
-                _context.GenerateLogin(user);
+                int pin = _context.GenerateLogin(user);
 
                 _context.Add(user);
                 await _context.SaveChangesAsync();
+
+                MailClient.Singleton.SendAddUser(user, pin);
+
                 return RedirectToAction(nameof(Index));
             }
             else
@@ -137,6 +147,9 @@ namespace Bank.Controllers
                         return Redirect("/Home/Error");
                     }
                 }
+
+                MailClient.Singleton.SendEditUser(user);
+
                 return RedirectToAction(nameof(Index));
             }
             else
@@ -163,6 +176,9 @@ namespace Bank.Controllers
             var user = await _context.User.FindAsync(id);
             _context.User.Remove(user);
             await _context.SaveChangesAsync();
+
+            MailClient.Singleton.SendDeleteUser(user);
+
             return RedirectToAction(nameof(Index));
         }
 

@@ -7,7 +7,7 @@ namespace Bank.Models
 {
     public partial class BankContext
     {
-        public void GenerateLogin(User user)
+        public int GenerateLogin(User user)
         {
             Random r = new Random();
             string login;
@@ -18,7 +18,11 @@ namespace Bank.Models
             } while (this.User.Any(a => a.Login == login));
 
             user.Login = login;
-            user.Pin = user.HashPin(r.Next(1000, 10000));
+
+            int pin = r.Next(1000, 10000);
+            user.Pin = user.HashPin(pin);
+
+            return pin;
         }
 
         public long GenerateAccountNumber()

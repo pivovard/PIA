@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Bank.Data;
+using Bank.Handlers;
 using Bank.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,20 +38,44 @@ namespace Bank.Controllers
                     ViewBag.ErrMsg = "Wrong login or pin!";
                     return View();
                 }
-                
-                HttpContext.Session.SetString("UserId", SessionHandler.NewSession(user));
+
                 if(user.Role == Role.User)
                 {
-                    return Redirect("/User");
+                    int t = TransactionHandler.NewAuth(user);
+                    HttpContext.Session.SetInt32("Auth", t);
+                    return View("LoginConfirm", user);
                 }
                 else
                 {
+                    HttpContext.Session.SetString("UserId", SessionHandler.NewSession(user));
                     return Redirect("/Admin");
                 }
             }
             catch
             {
                 return Redirect("/Home/Error");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LoginConfirm(string login, string code)
+        {
+            var t = HttpContext.Session.GetInt32("Auth");
+
+            if (t == null) RedirectToAction(nameof(Login));
+
+            if (TransactionHandler.IsValid((int)t, code))
+            {
+                User user = await _context.User.FirstOrDefaultAsync(u => u.Login == login);
+
+                HttpContext.Session.SetString("UserId", SessionHandler.NewSession(user));
+                return Redirect("/User");
+            }
+            else
+            {
+                ViewBag.ErrMsg = "Wrong confirmation code!";
+                return View(login);
             }
         }
 

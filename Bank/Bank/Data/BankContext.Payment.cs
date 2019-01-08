@@ -9,16 +9,26 @@ namespace Bank.Models
     {
         public async Task<bool> MakePayment(User user, Payment pay)
         {
-            if(user.Money >= pay.Amount)
+            if (user.Money >= pay.Amount)
             {
-                pay.UserId = user.Id;
-                pay.FromAccount = (long)user.AccountNumber;
-                user.Money -= pay.Amount;
-
                 try
                 {
+                    pay.UserId = user.Id;
+                    pay.FromAccount = (long)user.AccountNumber;
+                    user.Money -= pay.Amount;
+
+                    if (pay.DestBank == 666 && AccountExists(pay.DestAccount))
+                    {
+                        User u = this.User.FirstOrDefault(a => a.AccountNumber == pay.DestAccount);
+                        u.Money += pay.Amount;
+
+                        this.Update(u);
+                        //await this.SaveChangesAsync();
+                    }
+                    
                     this.Add(pay);
                     this.Update(user);
+
                     await this.SaveChangesAsync();
                 }
                 catch
@@ -32,6 +42,11 @@ namespace Bank.Models
             {
                 return false;
             }
+        }
+
+        public bool AccountExists(long acc)
+        {
+            return this.User.Any(a => a.AccountNumber == acc);
         }
 
         public bool IsTemplateNameUnique(string name, int uid)

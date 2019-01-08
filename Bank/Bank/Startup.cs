@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Bank.Models;
 using Bank.Filters;
+using Bank.Handlers;
 
 namespace Bank
 {
@@ -51,6 +52,12 @@ namespace Bank
 
             services.AddDbContext<BankContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("BankContext")));
+
+            //set path to file with Bank codes
+            if(!string.IsNullOrEmpty(Configuration["BankCodes"])) DataHandler.pathBankCodes = Configuration["BankCodes"];
+
+            if (!string.IsNullOrEmpty(Configuration["MailConfig"])) new MailClient(Configuration["MailConfig"]);
+            else new MailClient();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

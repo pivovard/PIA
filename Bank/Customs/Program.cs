@@ -11,8 +11,12 @@ namespace Customs
     {
         static void Main(string[] args)
         {
+
             Console.WriteLine(DateTime.Today.ToString("yyyy-MM-dd"));
             Console.ReadKey();
         }
+
+        class BankCode{
+
     }
 }

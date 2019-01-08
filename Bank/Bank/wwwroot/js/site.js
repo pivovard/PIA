@@ -1,5 +1,5 @@
 ﻿
-var prefix = "Bank of ???: ";
+var prefix = "Hell's bank: ";
 var title = document.title.substring(prefix.length, document.title.length);
 document.getElementById(title).className = "active";
 
@@ -25,4 +25,13 @@ function selectTemplate() {
     var e = document.getElementById("TemplateSelect");
     var temp = e.options[e.selectedIndex].value;
     document.getElementById("TemplateBtn").href = "/Payment/PaymentTemplate/" + temp;
+}
+
+function myMap() {
+    var myCenter = new google.maps.LatLng(49.7430022, 13.3712127);
+    var mapCanvas = document.getElementById("map");
+    var mapOptions = { center: myCenter, zoom: 16 };
+    var map = new google.maps.Map(mapCanvas, mapOptions);
+    var marker = new google.maps.Marker({ position: myCenter, animation: google.maps.Animation.BOUNCE });
+    marker.setMap(map);
 }

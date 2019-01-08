@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Bank.Models;
 using Microsoft.AspNetCore.Http;
-using Bank.Data;
+using Bank.Handlers;
 using Bank.Filters;
 
 namespace Bank.Controllers
@@ -30,6 +30,7 @@ namespace Bank.Controllers
         public async Task<IActionResult> Payment()
         {
             ViewBag.Templates = await GetTemplates();
+            ViewBag.BankCodes = DataHandler.GetBankCodes();
 
             return View();
         }
@@ -38,7 +39,41 @@ namespace Bank.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Payment(Payment payment)
         {
+            ViewBag.Templates = await GetTemplates();
+            ViewBag.BankCodes = DataHandler.GetBankCodes();
+
             if (ModelState.IsValid)
+            {
+                User user = null;
+                string userId = HttpContext.Session.GetString("UserId");
+                SessionHandler.GetUser(userId, out user);
+
+                if (user.Money < payment.Amount)
+                {
+                    ViewBag.Insufficient = "Insufficient money.";
+                    return View(payment);
+                }
+
+                if (payment.DestBank == 666 && !_context.AccountExists(payment.DestAccount)) return View("NoAccount", payment);
+
+                int t = TransactionHandler.NewPayment(user, payment);
+                HttpContext.Session.SetInt32("Payment", t);
+                return View("PaymentConfirm", payment);
+            }
+
+            ViewBag.ErrMsg = "Values are not valid.";
+            return View(payment);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PaymentConfirm(Payment payment, string code)
+        {
+            var t = HttpContext.Session.GetInt32("Payment");
+
+            if (t == null) RedirectToAction(nameof(Payment));
+
+            if (TransactionHandler.IsValid((int)t, code))
             {
                 User user = null;
                 string userId = HttpContext.Session.GetString("UserId");
@@ -46,31 +81,34 @@ namespace Bank.Controllers
 
                 try
                 {
-                    if (await _context.MakePayment(user, payment))
-                    {
-                        return RedirectToAction(nameof(PaymentList));
-                    }
-                    else
-                    {
-                        ViewBag.Insufficient = "Insufficient money.";
-                        return View(payment);
-                    }
+                    await _context.MakePayment(user, payment);
+
                 }
                 catch
                 {
-                    if (!UserExists(user.Id))
-                    {
-                        return Redirect("/User/UNotFound");
-                    }
-                    else
-                    {
-                        return Redirect("/Home/Error");
-                    }
+                    return Redirect("/Home/Error");
                 }
-            }
 
-            ViewBag.ErrMsg = "Values are not valid.";
-            return View(payment);
+                return RedirectToAction(nameof(PaymentList));
+            }
+            else
+            {
+                ViewBag.ErrMsg = "Wrong confirmation code!";
+                return View(payment);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult NoAccount(Payment payment)
+        {
+            User user = null;
+            string userId = HttpContext.Session.GetString("UserId");
+            SessionHandler.GetUser(userId, out user);
+
+            int t = TransactionHandler.NewPayment(user, payment);
+            HttpContext.Session.SetInt32("Payment", t);
+            return View("PaymentConfirm", payment);
         }
 
         public async Task<IActionResult> PaymentList()
@@ -87,8 +125,8 @@ namespace Bank.Controllers
             if (id == null) return RedirectToAction(nameof(Payment));
 
             var template = await _context.Template.FindAsync(id);
-            if(template == null) return RedirectToAction(nameof(Payment));
-            
+            if (template == null) return RedirectToAction(nameof(Payment));
+
             ViewBag.Templates = await GetTemplates();
 
             return View("Payment", new Payment(template));
