@@ -12,6 +12,9 @@ using System.Security.Claims;
 
 namespace Bank.Controllers
 {
+    /// <summary>
+    /// Controller for user account pages
+    /// </summary>
     public class UserController : Controller
     {
         private readonly BankContext _context;
@@ -21,6 +24,11 @@ namespace Bank.Controllers
             _context = context;
         }
         
+        /// <summary>
+        /// GET/User/
+        /// Account page
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
             User user = null;
@@ -36,6 +44,11 @@ namespace Bank.Controllers
             }
         }
 
+        /// <summary>
+        /// GET/User/Edit
+        /// Edit page
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Edit()
         {
             User user = null;
@@ -51,6 +64,14 @@ namespace Bank.Controllers
             }
         }
 
+        /// <summary>
+        /// POST/User/Edit/id
+        /// 
+        /// Redirect to index
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,BirthNumber,Adress,Email,Phone,AccountNumber,CardNumber,Money,Login,Pin,Role")] User user)
@@ -87,11 +108,21 @@ namespace Bank.Controllers
             }
         }
 
+        /// <summary>
+        /// GET/User/ChangePin
+        /// </summary>
+        /// <returns></returns>
         public IActionResult ChangePin()
         {
             return View();
         }
 
+        /// <summary>
+        /// POST/User/ChangePin
+        /// 
+        /// Redirect to index
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePin([Bind("OldPin")] int oldPin, [Bind("NewPin")] int newPin, [Bind("ConfirmPin")] int confirmPin)
@@ -146,6 +177,10 @@ namespace Bank.Controllers
             }
         }
 
+        /// <summary>
+        /// GET/User/UnotFound
+        /// </summary>
+        /// <returns></returns>
         public IActionResult UNotFound()
         {
             return View();

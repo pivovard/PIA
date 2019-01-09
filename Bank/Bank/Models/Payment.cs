@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Bank.Models
 {
+    /// <summary>
+    /// Store information about payment
+    /// </summary>
     public class Payment
     {
         public int Id { get; set; }
@@ -34,7 +37,15 @@ namespace Bank.Models
 
         public string Message { get; set; }
 
+        /// <summary>
+        /// Create empty payment
+        /// </summary>
         public Payment() { }
+
+        /// <summary>
+        /// Create payment from given template
+        /// </summary>
+        /// <param name="template">Template for payment</param>
         public Payment(Template template)
         {
             this.DestAccountPrefix = template.DestAccountPrefix;

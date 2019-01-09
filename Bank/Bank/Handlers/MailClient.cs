@@ -10,6 +10,9 @@ using Bank.Models;
 
 namespace Bank.Handlers
 {
+    /// <summary>
+    /// Client for mail comunication
+    /// </summary>
     public class MailClient
     {
         public static MailClient Singleton { get; set; }
@@ -22,6 +25,9 @@ namespace Bank.Handlers
 
         private  SmtpClient client;
 
+        /// <summary>
+        /// Creates singleton with default settings
+        /// </summary>
         public MailClient()
         {
             Singleton = this;
@@ -29,6 +35,9 @@ namespace Bank.Handlers
             
         }
 
+        /// <summary>
+        /// Creates singleton with given settings
+        /// </summary>
         public MailClient(string path)
         {
             Singleton = GetCongfig(path);
@@ -36,6 +45,11 @@ namespace Bank.Handlers
             
         }
 
+        /// <summary>
+        /// Get configuration from path
+        /// </summary>
+        /// <param name="path">Path</param>
+        /// <returns>Mail client</returns>
         private MailClient GetCongfig(string path)
         {
             var serializer = new XmlSerializer(typeof(MailClient));
@@ -43,6 +57,9 @@ namespace Bank.Handlers
             else return this;
         }
 
+        /// <summary>
+        /// Setup mail client
+        /// </summary>
         public void MailClientSetup()
         {
 
@@ -54,6 +71,11 @@ namespace Bank.Handlers
             client.Credentials = new System.Net.NetworkCredential(Credentials, Pass);
         }
 
+        /// <summary>
+        /// Send authorization email
+        /// </summary>
+        /// <param name="user">Email to user</param>
+        /// <param name="code">Verification code</param>
         public void SendAuth(User user, string code)
         {
             MailMessage msg = new MailMessage();
@@ -62,11 +84,17 @@ namespace Bank.Handlers
             msg.To.Add(new MailAddress(user.Email));
 
             msg.Subject = "Login";
-            msg.Body = $"Confirmation code for login request is {code}";
+            msg.Body = $"Verification code for login request is {code}";
 
             client.Send(msg);
         }
 
+        /// <summary>
+        /// Send verification email for payment
+        /// </summary>
+        /// <param name="user">Email to user</param>
+        /// <param name="pay">Payment</param>
+        /// <param name="code">Confirmation code</param>
         public void SendPayment(User user, Payment pay, string code)
         {
             MailMessage msg = new MailMessage();
@@ -83,6 +111,11 @@ namespace Bank.Handlers
             client.Send(msg);
         }
 
+        /// <summary>
+        /// Send info to new user with pin
+        /// </summary>
+        /// <param name="user">User</param>
+        /// <param name="pin">Pin in no hash form</param>
         public void SendAddUser(User user, int pin)
         {
             MailMessage msg = new MailMessage();
@@ -102,6 +135,10 @@ namespace Bank.Handlers
             client.Send(msg);
         }
 
+        /// <summary>
+        /// Send info abou edit
+        /// </summary>
+        /// <param name="user">User</param>
         public void SendEditUser(User user)
         {
             MailMessage msg = new MailMessage();
@@ -118,6 +155,10 @@ namespace Bank.Handlers
             client.Send(msg);
         }
 
+        /// <summary>
+        /// Send info abou removing user
+        /// </summary>
+        /// <param name="user">User</param>
         public void SendDeleteUser(User user)
         {
             MailMessage msg = new MailMessage();

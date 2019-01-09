@@ -11,6 +11,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bank.Controllers
 {
+    /// <summary>
+    /// Controller for template operations pages
+    /// </summary>
     [UserFilter]
     public class TemplateController : Controller
     {
@@ -21,11 +24,21 @@ namespace Bank.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// GET/Template
+        /// 
+        /// Redirect to TemplateList
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
             return RedirectToAction(nameof(TemplateList));
         }
 
+        /// <summary>
+        /// GET/Template/TemplateList
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> TemplateList()
         {
             User user = null;
@@ -35,11 +48,19 @@ namespace Bank.Controllers
             return View(await _context.Template.Where(t => t.UserId == user.Id).ToListAsync());
         }
 
+        /// <summary>
+        /// GET/Template/AddTemplate
+        /// </summary>
+        /// <returns></returns>
         public IActionResult AddTemplate()
         {
             return View();
         }
 
+        /// <summary>
+        /// POST/Template/AddTemplate
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddTemplate(Template template)
@@ -75,6 +96,10 @@ namespace Bank.Controllers
             return View(template);
         }
 
+        /// <summary>
+        /// GET/Template/EditTemplate/id
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> EditTemplate(int? id)
         {
             if (id == null) return View();
@@ -85,6 +110,10 @@ namespace Bank.Controllers
             return View(temp);
         }
 
+        /// <summary>
+        /// POST/Template/EditTemplate/id
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditTemplate(int id, Template template)
@@ -119,6 +148,10 @@ namespace Bank.Controllers
             }
         }
 
+        /// <summary>
+        /// GET/Template/DeleteTemplate/id
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> DeleteTemplate(int? id)
         {
             if (id == null) return RedirectToAction(nameof(TemplateList));

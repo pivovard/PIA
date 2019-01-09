@@ -7,6 +7,9 @@ using System.Security.Cryptography;
 
 namespace Bank.Models
 {
+    /// <summary>
+    /// Store information about user/admin
+    /// </summary>
     public class User
     {
         public int Id { get; set; }
@@ -35,57 +38,13 @@ namespace Bank.Models
 
         public ICollection<Payment> Payments { get; set; }
         public ICollection<Template> Templates { get; set; }
+        
 
-
-        public void GenerateLogin(BankContext context)
-        {
-            Random r = new Random();
-            string login;
-
-            do
-            {
-                login = r.Next(10000000, 100000000).ToString();
-            } while (context.User.Any(a => a.Login == login));
-
-            this.Login = login;
-            this.Pin = HashPin(r.Next(1000, 10000));
-        }
-
-        public void GenerateAccountNumber(BankContext context)
-        {
-            Random r = new Random();
-            long n;
-            
-            do
-            {
-                n = r.Next(10000000, 100000000) * 100000000L + r.Next(10000000, 100000000);
-            } while (context.User.Any(a => a.AccountNumber == n));
-
-            this.AccountNumber = n;
-        }
-        public void GenerateCardNumber(BankContext context)
-        {
-            Random r = new Random();
-            long n;
-
-            do
-            {
-                n = r.Next(10000000, 100000000) * 100000000L + r.Next(10000000, 100000000);
-            } while (context.User.Any(a => a.CardNumber == n));
-
-            this.CardNumber = n;
-        }
-
-        public bool IsAccountUnique(BankContext context)
-        {
-            return !context.User.Any(a => a.AccountNumber == this.AccountNumber);
-        }
-
-        public bool IsCardUnique(BankContext context)
-        {
-            return !context.User.Any(a => a.CardNumber == this.CardNumber);
-        }
-
+        /// <summary>
+        /// Returns hash of given pin
+        /// </summary>
+        /// <param name="pin">Pin to hash</param>
+        /// <returns>Hash</returns>
         public string HashPin(int pin)
         {
             byte[] hash;

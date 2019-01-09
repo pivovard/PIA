@@ -10,9 +10,11 @@ using System.Threading.Tasks;
 
 namespace Bank.Filters
 {
+    /// <summary>
+    /// Filter access to pages for user
+    /// </summary>
     public class UserFilter : IActionFilter
     {
-        public int Order => int.MinValue;
 
         public void OnActionExecuted(ActionExecutedContext context)
         {

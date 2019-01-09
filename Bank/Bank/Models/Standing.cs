@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Bank.Models
 {
+    /// <summary>
+    /// Store information about standing payment
+    /// </summary>
     public class Standing
     {
         public int Id { get; set; }

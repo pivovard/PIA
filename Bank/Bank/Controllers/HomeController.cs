@@ -10,6 +10,9 @@ using Bank.Filters;
 
 namespace Bank.Controllers
 {
+    /// <summary>
+    /// Controller for public pages
+    /// </summary>
     public class HomeController : Controller
     {
         public IActionResult Index()

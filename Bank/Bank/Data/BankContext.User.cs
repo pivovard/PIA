@@ -7,6 +7,12 @@ namespace Bank.Models
 {
     public partial class BankContext
     {
+        /// <summary>
+        /// Generate unique login and hash pin.
+        /// Set it to the given user
+        /// </summary>
+        /// <param name="user">User</param>
+        /// <returns>Pin in no hash</returns>
         public int GenerateLogin(User user)
         {
             Random r = new Random();
@@ -25,6 +31,10 @@ namespace Bank.Models
             return pin;
         }
 
+        /// <summary>
+        /// Generate unique account number
+        /// </summary>
+        /// <returns>account number</returns>
         public long GenerateAccountNumber()
         {
             Random r = new Random();
@@ -37,6 +47,11 @@ namespace Bank.Models
 
             return n;
         }
+
+        /// <summary>
+        /// Generate unique card number
+        /// </summary>
+        /// <returns>card number</returns>
         public long GenerateCardNumber()
         {
             Random r = new Random();
@@ -50,11 +65,21 @@ namespace Bank.Models
             return n;
         }
 
+        /// <summary>
+        /// Returns if account number is unique
+        /// </summary>
+        /// <param name="acc">account number</param>
+        /// <returns>True if unique, false if not</returns>
         public bool IsAccountUnique(long acc)
         {
             return !this.User.Any(a => a.AccountNumber == acc);
         }
 
+        /// <summary>
+        /// Returns if card number is unique
+        /// </summary>
+        /// <param name="acc">card number</param>
+        /// <returns>True if unique, false if not</returns>
         public bool IsCardUnique(long card)
         {
             return !this.User.Any(a => a.CardNumber == card);

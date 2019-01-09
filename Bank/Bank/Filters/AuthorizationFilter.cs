@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 
 namespace Bank.Filters
 {
+    /// <summary>
+    /// Filter if user is logged
+    /// Sets navbar to user/admin
+    /// </summary>
     public class AuthorizationFilter : IActionFilter
     {
         public int Order => int.MinValue;

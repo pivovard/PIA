@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Bank.Filters
 {
+    /// <summary>
+    /// Filter access to pages for admin
+    /// </summary>
     public class AdminFilter : IActionFilter
     {
         public void OnActionExecuted(ActionExecutedContext context)

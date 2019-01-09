@@ -12,6 +12,9 @@ using Bank.Filters;
 
 namespace Bank.Controllers
 {
+    /// <summary>
+    /// Controller for payment operations pages
+    /// </summary>
     [UserFilter]
     public class PaymentController : Controller
     {
@@ -22,11 +25,22 @@ namespace Bank.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// GET/Payment
+        /// 
+        /// Redirect to payment
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
             return RedirectToAction(nameof(Payment));
         }
 
+
+        /// <summary>
+        /// GET/Payment/Payment
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> Payment()
         {
             ViewBag.Templates = await GetTemplates();
@@ -35,6 +49,10 @@ namespace Bank.Controllers
             return View();
         }
 
+        /// <summary>
+        /// POST/Payment/Payment
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Payment(Payment payment)
@@ -54,7 +72,7 @@ namespace Bank.Controllers
                     return View(payment);
                 }
 
-                if (payment.DestBank == 666 && !_context.AccountExists(payment.DestAccount)) return View("NoAccount", payment);
+                if (payment.DestBank == 666 && !_context.AccountExist(payment.DestAccount)) return View("NoAccount", payment);
 
                 int t = TransactionHandler.NewPayment(user, payment);
                 HttpContext.Session.SetInt32("Payment", t);
@@ -65,6 +83,10 @@ namespace Bank.Controllers
             return View(payment);
         }
 
+        /// <summary>
+        /// POST/Payment/PaymentConfirm
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PaymentConfirm(Payment payment, string code)
@@ -98,6 +120,10 @@ namespace Bank.Controllers
             }
         }
 
+        /// <summary>
+        /// POST/Payment/NoAccount
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult NoAccount(Payment payment)
@@ -111,6 +137,10 @@ namespace Bank.Controllers
             return View("PaymentConfirm", payment);
         }
 
+        /// <summary>
+        /// GET/Payment/PaymentList
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> PaymentList()
         {
             User user = null;
@@ -120,6 +150,12 @@ namespace Bank.Controllers
             return View(await _context.Payment.Where(e => e.UserId == user.Id).ToListAsync());
         }
 
+        /// <summary>
+        /// GET/Payment/PaymentTemplate/id
+        /// 
+        /// Redirect to Payment
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> PaymentTemplate(int? id)
         {
             if (id == null) return RedirectToAction(nameof(Payment));
@@ -137,6 +173,10 @@ namespace Bank.Controllers
             return _context.User.Any(e => e.Id == id);
         }
 
+        /// <summary>
+        /// Returns list of templates
+        /// </summary>
+        /// <returns></returns>
         private async Task<List<Template>> GetTemplates()
         {
             User user = null;

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Bank.Models
 {
+    /// <summary>
+    /// Store information about template to create payment
+    /// </summary>
     public class Template
     {
         public int Id { get; set; }

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Bank.Handlers
 {
+    /// <summary>
+    /// Handle transaction verification
+    /// </summary>
     public class TransactionHandler
     {
         private static Dictionary<long, string> transactions = new Dictionary<long, string>();
@@ -14,7 +17,11 @@ namespace Bank.Handlers
         private const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         private static Random r = new Random();
 
-
+        /// <summary>
+        /// Adds new authorization transaction
+        /// </summary>
+        /// <param name="user">User to login</param>
+        /// <returns>Transaction id</returns>
         public static int NewAuth(User user)
         {
             counter++;
@@ -29,6 +36,12 @@ namespace Bank.Handlers
             return counter;
         }
 
+        /// <summary>
+        /// Adds new payment transaction
+        /// </summary>
+        /// <param name="user">User</param>
+        /// <param name="pay">Payment</param>
+        /// <returns>Transaction id</returns>
         public static int NewPayment(User user, Payment pay)
         {
             counter++;
@@ -43,6 +56,12 @@ namespace Bank.Handlers
             return counter;
         }
 
+        /// <summary>
+        /// Returns if transaction code is valid
+        /// </summary>
+        /// <param name="t">Transaction id</param>
+        /// <param name="code">Transaction code</param>
+        /// <returns>True if transaction code is valid, false if not</returns>
         public static bool IsValid(int t, string code)
         {
             if(transactions.ContainsKey(t) && transactions[t].Equals(code))

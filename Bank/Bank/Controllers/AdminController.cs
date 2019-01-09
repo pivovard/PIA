@@ -10,6 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bank.Controllers
 {
+    /// <summary>
+    /// Controller for admin pages
+    /// </summary>
     [AdminFilter]
     public class AdminController : Controller
     {
@@ -20,17 +23,28 @@ namespace Bank.Controllers
             _context = context;
         }
         
+        /// <summary>
+        /// GET/Admin
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> Index()
         {
             return View(await _context.User.ToListAsync());
         }
 
-        
+        /// <summary>
+        /// GET/Admin/AddUser
+        /// </summary>
+        /// <returns></returns>
         public IActionResult AddUser()
         {
             return View();
         }
-        
+
+        /// <summary>
+        /// POST/Admin/AddUser
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddUser([Bind("Id,Name,BirthNumber,Adress,Email,Phone,AccountNumber,CardNumber,Money,Login,Pin,Role")] User user, string Turing, [Bind("AccGen")] bool AccGen = false, [Bind("CardGen")] bool CardGen = false)
@@ -91,7 +105,11 @@ namespace Bank.Controllers
                 return View(user);
             }
         }
-        
+
+        /// <summary>
+        /// GET/Admin/EditUser/id
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> EditUser(int? id)
         {
             if (id == null) return RedirectToAction(nameof(Index));
@@ -101,7 +119,11 @@ namespace Bank.Controllers
             
             return View(user);
         }
-        
+
+        /// <summary>
+        /// POST/Admin/EditUser/id
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditUser(int id, [Bind("Id,Name,BirthNumber,Adress,Email,Phone,AccountNumber,CardNumber,Money,Login,Pin,Role")] User user, [Bind("CardGen")] bool CardGen)
@@ -158,7 +180,11 @@ namespace Bank.Controllers
                 return View(user);
             }
         }
-        
+
+        /// <summary>
+        /// GET/Admin/DeleteUser/id
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> DeleteUser(int? id)
         {
             if (id == null) return RedirectToAction(nameof(Index));
@@ -168,7 +194,11 @@ namespace Bank.Controllers
 
             return View(user);
         }
-        
+
+        /// <summary>
+        /// POST/Admin/DeleteUser/id
+        /// </summary>
+        /// <returns></returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
