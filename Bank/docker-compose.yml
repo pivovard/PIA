@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  bank:
+    image: bank
+    build:
+      context: .
+      dockerfile: Bank/Dockerfile
