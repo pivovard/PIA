@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bank", "Bank\Bank.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankTest", "BankTest\BankTest.csproj", "{9320EDB4-8999-4452-ADAD-7C00437E4F10}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{EF90F167-113B-41E5-91C9-954EE49DED0B}"
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{0C7D23AC-781C-4833-BE02-D5D1A5EED67A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{9320EDB4-8999-4452-ADAD-7C00437E4F10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9320EDB4-8999-4452-ADAD-7C00437E4F10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9320EDB4-8999-4452-ADAD-7C00437E4F10}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EF90F167-113B-41E5-91C9-954EE49DED0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EF90F167-113B-41E5-91C9-954EE49DED0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EF90F167-113B-41E5-91C9-954EE49DED0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EF90F167-113B-41E5-91C9-954EE49DED0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C7D23AC-781C-4833-BE02-D5D1A5EED67A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C7D23AC-781C-4833-BE02-D5D1A5EED67A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C7D23AC-781C-4833-BE02-D5D1A5EED67A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C7D23AC-781C-4833-BE02-D5D1A5EED67A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

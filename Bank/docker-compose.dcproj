@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>ef90f167-113b-41e5-91c9-954ee49ded0b</ProjectGuid>
+    <ProjectGuid>0c7d23ac-781c-4833-be02-d5d1a5eed67a</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
     <DockerServiceName>bank</DockerServiceName>
