@@ -25,7 +25,7 @@ namespace Bank.Filters
         {
             Controller controller = context.Controller as Controller;
             User u = null;
-
+            
             string userId = context.HttpContext.Session.GetString("UserId");
 
             if (string.IsNullOrEmpty(userId) || !SessionHandler.GetUser(userId, out u))

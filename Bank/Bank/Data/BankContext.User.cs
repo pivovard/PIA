@@ -9,7 +9,8 @@ namespace Bank.Models
     {
         /// <summary>
         /// Generate unique login and hash pin.
-        /// Set it to the given user
+        /// Set it to the given user.
+        /// Returns pin in no hash.
         /// </summary>
         /// <param name="user">User</param>
         /// <returns>Pin in no hash</returns>

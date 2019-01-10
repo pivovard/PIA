@@ -8,7 +8,7 @@ namespace Bank.Models
     public partial class BankContext
     {
         /// <summary>
-        /// Makes a payment
+        /// Makes a payment.
         /// If destination account is in 666 bank transfers money to destination account
         /// </summary>
         /// <param name="user">User</param>
