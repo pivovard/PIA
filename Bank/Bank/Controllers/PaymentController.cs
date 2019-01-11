@@ -143,11 +143,81 @@ namespace Bank.Controllers
         /// <returns></returns>
         public async Task<IActionResult> PaymentList()
         {
+            Models.Payment.page = 0;
+            ViewBag.Page = Models.Payment.page;
+
             User user = null;
             string userId = HttpContext.Session.GetString("UserId");
             SessionHandler.GetUser(userId, out user);
 
-            return View(await _context.Payment.Where(e => e.UserId == user.Id).ToListAsync());
+            List<Payment> list = await _context.Payment.Where(e => e.UserId == user.Id).ToListAsync();
+
+            int offset = Models.Payment.page * Models.Payment.paginator;
+
+            if (list.Count >= offset + Models.Payment.paginator)
+            {
+                list = list.GetRange(offset, Models.Payment.paginator);
+            }
+            else
+            {
+                list = list.GetRange(offset, list.Count - offset);
+            }
+
+            return View(list);
+        }
+
+        /// <summary>
+        /// GET/Payment/PaymentList/id
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IActionResult> PaymentListPage(int? id)
+        {
+            switch (id)
+            {
+                case 1: Models.Payment.page++; break;
+                case 0: Models.Payment.page--; break;
+                case 20:
+                case 50:
+                case 100:
+                    Models.Payment.paginator = (int)id;
+                    break;
+                case null:
+                default:
+                    return RedirectToAction(nameof(PaymentList));
+            }
+
+            ViewBag.DisP = "";
+            ViewBag.DisN = "";
+
+            if (Models.Payment.page < 0) Models.Payment.page = 0;
+            if (Models.Payment.page == 0) ViewBag.DisP = "disabled";
+            ViewBag.Page = Models.Payment.page;
+
+            User user = null;
+            string userId = HttpContext.Session.GetString("UserId");
+            SessionHandler.GetUser(userId, out user);
+
+            List<Payment> list = await _context.Payment.Where(e => e.UserId == user.Id).ToListAsync();
+
+            int offset = Models.Payment.page * Models.Payment.paginator;
+
+            if (list.Count >= offset + Models.Payment.paginator)
+            {
+                list = list.GetRange(offset, Models.Payment.paginator);
+            }
+            else if (list.Count >= offset)
+            {
+                list = list.GetRange(offset, list.Count - offset);
+                ViewBag.DisN = "disabled";
+            }
+            else
+            {
+                return RedirectToAction(nameof(PaymentList));
+            }
+
+            
+
+            return View("PaymentList", list);
         }
 
         /// <summary>

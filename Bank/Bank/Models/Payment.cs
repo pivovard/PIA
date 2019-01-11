@@ -37,6 +37,10 @@ namespace Bank.Models
 
         public string Message { get; set; }
 
+
+        public static int page = 0;
+        public static int paginator = 20;
+
         /// <summary>
         /// Create empty payment
         /// </summary>

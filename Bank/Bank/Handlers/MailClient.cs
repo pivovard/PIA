@@ -146,7 +146,7 @@ namespace Bank.Handlers
             msg.From = new MailAddress(this.From);
             msg.To.Add(new MailAddress(user.Email));
 
-            msg.Subject = "You have been registered in Hell's bank";
+            msg.Subject = "Account edit";
             msg.Body = $"Hello,\n\n" +
                 $"your account has been changed.\n\n" +
                 $"Regards,\n" +
@@ -166,7 +166,7 @@ namespace Bank.Handlers
             msg.From = new MailAddress(this.From);
             msg.To.Add(new MailAddress(user.Email));
 
-            msg.Subject = "You have been registered in Hell's bank";
+            msg.Subject = "Account deleted";
             msg.Body = $"Hello,\n\n" +
                 $"your account has been deleted.\n\n" +
                 $"Regards,\n" +
