@@ -25,7 +25,6 @@ namespace Bank.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login([Bind("Login")] string login, [Bind("Pin")] int pin)
         {
             try
@@ -61,7 +60,6 @@ namespace Bank.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> LoginConfirm(string login, string code)
         {
             var t = HttpContext.Session.GetInt32("Auth");

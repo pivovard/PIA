@@ -18,8 +18,6 @@ FROM base AS final
 COPY . /app
 WORKDIR /app
 COPY --from=publish /app .
-COPY BankContext-afea5610-d4cd-47d8-8ae0-6e4372c48298.mdf ../var/opt/mssql/data
-COPY BankContext-afea5610-d4cd-47d8-8ae0-6e4372c48298.mdf ../home
 ENTRYPOINT ["dotnet", "Bank.dll"]
 RUN chmod +x ./entrypoint.sh
 CMD /bin/bash ./entrypoint.sh
