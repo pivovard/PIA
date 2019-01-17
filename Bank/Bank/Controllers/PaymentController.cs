@@ -234,6 +234,7 @@ namespace Bank.Controllers
             if (template == null) return RedirectToAction(nameof(Payment));
 
             ViewBag.Templates = await GetTemplates();
+            ViewBag.BankCodes = DataHandler.GetBankCodes();
 
             return View("Payment", new Payment(template));
         }

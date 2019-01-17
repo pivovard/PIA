@@ -5,9 +5,26 @@ Web application represents web of the bank with internet banking.
 
 ## Technologies
 
-Application is created by ASP.NET MVC using ASP.NET Core and Entity framework.
-Database is realized as Microsoft SQL Server Database File.
+Application is created by ASP.NET Core MVC and Entity framework core.
+Database is realized as Microsoft SQL Server.
 Tests are writen as MSTest unit tests.
+
+## Deployment
+
+Both application and database are deployed on Microsoft Azure servers:
+https://bank20190117021846.azurewebsites.net
+
+### Users
+
+Admin accounts:
+Admin001    1234
+147         147
+
+User accounts (set valid email for verification):
+User0001    0001
+User0002    0002
+123         123
+27141478    2891
 
 ## Roles
 
@@ -29,3 +46,4 @@ Email login verification.
 Email payment confirmation.
 Confirmation of paymen if destination account within same bank code doesn't exist.
 Transfer money within same bank.
+

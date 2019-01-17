@@ -42,7 +42,7 @@ namespace Bank.Controllers
                 {
                     //HttpContext.Session.SetString("UserId", SessionHandler.NewSession(user));
                     //return Redirect("/User");
-
+                    
                     int t = TransactionHandler.NewAuth(user);
                     HttpContext.Session.SetInt32("Auth", t);
                     return View("LoginConfirm", user);
