@@ -17,14 +17,14 @@ https://bank20190117021846.azurewebsites.net
 ### Users
 
 Admin accounts:
-Admin001    1234
-147         147
+- Admin001    1234
+- 147         147
 
 User accounts (set valid email for verification):
-User0001    0001
-User0002    0002
-123         123
-27141478    2891
+- User0001    0001
+- User0002    0002
+- 123         123
+- 27141478    2891
 
 ## Roles
 
