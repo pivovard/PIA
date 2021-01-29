@@ -1,13 +1,13 @@
 # KIV/PIA Bank
 
 This project is semestral work of KIV/PIA.
-Web application represents web of the bank with internet banking.
+Web application represents the internet banking of a fictional bank.
 
 ## Technologies
 
-Application is created by ASP.NET Core MVC and Entity framework core.
+Application is created in ASP.NET Core MVC and Entity framework core.
 Database is realized as Microsoft SQL Server.
-Tests are writen as MSTest unit tests.
+Tests are written as MSTest unit tests.
 
 ## Deployment
 
